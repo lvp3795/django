@@ -140,11 +140,6 @@ AUTH_USER_MODEL = 'user.CustomUser'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://django-server-production-b621.up.railway.app/"]
-
-CSRF_COOKIE_SECURE = False
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
