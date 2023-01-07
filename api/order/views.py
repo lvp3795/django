@@ -8,6 +8,16 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def validate_user_session(id, token):
+    """
+    Chức năng: Xác minh phiên làm việc của người dùng bằng cách kiểm tra token.
+
+    Input:
+        id (int): Khóa chính của người dùng.
+        token (str): Mã phiên làm việc cần được xác minh.
+
+    Output:
+        bool: True nếu mã phiên làm việc là hợp lệ, ngược lại là False.
+    """
     UserModel = get_user_model()
     try:
         user = UserModel.objects.get(pk=id)
@@ -20,6 +30,17 @@ def validate_user_session(id, token):
 
 @csrf_exempt
 def add(request, id, token):
+    """
+    Chức năng: Thêm đơn hàng cho người dùng dựa trên yêu cầu POST.
+
+    Tham số:
+        request (Request): Đối tượng yêu cầu.
+        id (int): Khóa chính của người dùng.
+        token (str): Mã phiên làm việc.
+
+    Trả về:
+        JsonResponse: Chứa thông báo về kết quả thêm đơn hàng.
+    """
     if not validate_user_session(id, token):
         return JsonResponse({'error': 'Please re-login'})
     if request.method == "POST":

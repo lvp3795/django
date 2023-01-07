@@ -4,6 +4,21 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
+    """
+    Lớp CustomUser kế thừa từ AbstractUser và dùng để lưu trữ thông tin về người dùng.
+
+    Thuộc tính:
+        name (CharField): Tên người dùng.
+        email (EmailField): Email người dùng.
+        username (None): Không sử dụng username như lớp AbstractUser.
+        USERNAME_FIELD (str): Sử dụng email làm tên đăng nhập.
+        REQUIRED_FIELDS (list): Danh sách các trường bắt buộc phải có.
+        phone (CharField): Số điện thoại người dùng.
+        gender (CharField): Giới tính người dùng.
+        session_token (CharField): Mã phiên làm việc của người dùng.
+        createAt (DateTimeField): Thời gian khởi tạo.
+        updateAt (DateTimeField): Thời gian cập nhật.
+    """
     name = models.CharField(max_length=50, default='User')
     email = models.EmailField(max_length=100, unique=True)
     username = None

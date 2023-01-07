@@ -5,6 +5,18 @@ from api.product.models import Product
 
 
 class Order(models.Model):
+    """
+    Lớp Order dùng để lưu trữ thông tin về đơn hàng.
+    
+    Thuộc tính:
+        user (ForeignKey): Liên kết tới người dùng tạo đơn hàng.
+        product_names (CharField): Tên các sản phẩm trong đơn hàng.
+        total_product (CharField): Tổng số lượng sản phẩm trong đơn hàng.
+        transaction_id (CharField): Mã giao dịch của đơn hàng.
+        total_amount (CharField): Tổng tiền của đơn hàng.
+        createAt (DateTimeField): Ngày tạo đơn hàng.
+        updateAt (DateTimeField): Ngày cập nhật đơn hàng.
+    """
     user = models.ForeignKey(
         CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     product_names = models.CharField(max_length=500)

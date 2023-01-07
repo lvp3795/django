@@ -17,6 +17,16 @@ gateway = braintree.BraintreeGateway(
 
 
 def validate_user_session(id, token):
+    """
+    Chức năng: Xác minh phiên làm việc của người dùng bằng cách kiểm tra token.
+
+    Input:
+        id (int): Khóa chính của người dùng.
+        token (str): Mã phiên làm việc cần được xác minh.
+
+    Output:
+        bool: True nếu mã phiên làm việc là hợp lệ, ngược lại là False.
+    """
     UserModel = get_user_model()
     try:
         user = UserModel.objects.get(pk=id)
@@ -29,6 +39,17 @@ def validate_user_session(id, token):
 
 @csrf_exempt
 def generate_token(request, id, token):
+    """
+    Chức năng: Tạo mã phiên làm việc cho người dùng dựa trên yêu cầu POST.
+
+    Input:
+        request (Request): Đối tượng yêu cầu.
+        id (int): Khóa chính của người dùng.
+        token (str): Mã phiên làm việc cần được xác minh.
+
+    Output:
+        JsonResponse: Chứa mã phiên làm việc mới được tạo và thông báo về kết quả.
+    """
     if not validate_user_session(id, token):
         return JsonResponse({'error': 'Invalid session token, Please login again'})
 
@@ -37,6 +58,17 @@ def generate_token(request, id, token):
 
 @csrf_exempt
 def process_payment(request, id, token):
+    """
+    Chức năng: Xử lý thanh toán cho người dùng dựa trên yêu cầu POST.
+
+    Tham số:
+        request (Request): Đối tượng yêu cầu.
+        id (int): Khóa chính của người dùng.
+        token (str): Mã phiên làm việc cần được xác minh.
+
+    Trả về:
+        JsonResponse: Chứa thông tin về kết quả thanh toán và mã giao dịch.
+    """
     if not validate_user_session(id, token):
         return JsonResponse({'error': 'Invalid session token, Please login again'})
 

@@ -12,11 +12,34 @@ import random
 
 
 def generate_session_token(lenght=10):
+    """
+    Chức năng: Hàm này sẽ tạo ra một session token ngẫu nhiên có độ dài mặc định là 10 ký tự.
+
+    Input:
+        length: int(Độ dài của session token, mặc định là 10)
+
+    Output:
+        str: Session token ngẫu nhiên
+    """
     return ''.join(random.SystemRandom().choice([chr(i) for i in range(97, 123)]+[str(i) for i in range(10)]) for _ in range(lenght))
 
 
 @csrf_exempt
 def signin(request):
+    """
+    Hàm này được sử dụng để xác thực người dùng khi đăng nhập. Nếu người dùng hợp lệ và mật khẩu đúng, hàm sẽ trả về một token để xác thực người dùng trong các request sau.
+
+    Input:
+        request: HttpRequest object
+            Yêu cầu POST gồm các tham số 'email' và 'password' để đăng nhập
+
+    Output:
+        JsonResponse: Trả về kết quả xác thực người dùng dưới dạng một Json object với các trường sau:
+            - Nếu đăng nhập thành công: 
+                {'token': 'Session token', 'user': 'Thông tin người dùng'}
+            - Nếu có lỗi: 
+                {'error': 'Thông báo lỗi'}
+    """
     if not request.method == 'POST':
         return JsonResponse({'error': 'Send a post request with valid parameter only'})
     username = request.POST['email']
@@ -53,6 +76,22 @@ def signin(request):
 
 
 def signout(request, id):
+    """
+    Hàm này được sử dụng để đăng xuất người dùng và hủy bỏ token hiện tại của người dùng.
+
+    Input:
+        request: HttpRequest object
+            Yêu cầu đăng xuất
+        id: int
+            ID của người dùng cần đăng xuất
+
+    Output:
+        JsonResponse: Trả về kết quả đăng xuất dưới dạng một Json object với các trường sau:
+            - Nếu đăng xuất thành công: 
+                {'success': 'Logout success'}
+            - Nếu có lỗi: 
+                {'error': 'Thông báo lỗi'}
+    """
     logout(request)
 
     UserModel = get_user_model()
